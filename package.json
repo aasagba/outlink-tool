@@ -1,0 +1,19 @@
+{
+  "name": "outlink-tool",
+  "version": "1.0.0",
+  "description": "Tool to display outlinks for UEL",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Adrian Asagba",
+  "license": "ISC",
+  "dependencies": {
+    "app-config": "^0.1.4",
+    "express": "^4.13.4",
+    "fs": "0.0.2",
+    "mongojs": "^2.3.0",
+    "nodemon": "^1.9.1",
+    "request": "^2.69.0"
+  }
+}

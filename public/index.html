@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+	<head>
+		<title>Search Source URL</title>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+		<link href="datatables/media/css/datatables.bootstrap.min.css" rel="stylesheet">
+		<link href="datatables/media/css/jquery.dataTables.min.css" rel="stylesheet">
+		<link href="http://l-lin.github.io/angular-datatables/dist/css/angular-datatables.css" rel="stylesheet">
+		<link rel="stylesheet" href="styles/styles.css">
+	</head>
+	<body>
+		<div class="container" ng-controller="AppCtrl as ctrl">
+			<form name="form" novalidate>
+				<div class="search-container" style="margin-bottom: 20px;">
+					<label style="margin-right: 10px;">Search Source Url: </label><input class="form-control" style="width:50%;display:inline" ng-model="term" name="search" id="search" placeholder="Enter Search term..." required="required" />
+					<button style="display: inline" class="btn btn-primary search" ng-click="search(term);">Search</button>
+					<div style="margin-left:10px; display: inline;">
+						<label ng-repeat="role in roles">
+						  <input type="checkbox" checklist-model="getRoles()" checklist-value="role" ng-change="check(role, checked)" style="margin-left:5px;">
+						   {{role}} 
+						</label>
+					</div>
+				</div>
+			</form>
+			<label for="pageTotal">Show:&nbsp;</label><input type="text" style="width:80px" name="pageTotal" value="" id="pageTotal" ng-model="ctrl.limit" /> entries
+			<span style="margin-left: 80px;">Showing <b>{{ctrl.currentTotal}}</b> of <b>{{ctrl.totalResults}}</b> total results</span>
+			<!--<button ng-if="ctrl.totalResults > ctrl.currentTotal" style="width:120px;text-align:center;margin:auto;display: inline;margin-left: 180px;" class="btn-block" ng-click="loadMore2()">Load More</button>-->
+			<a ng-if="ctrl.totalResults > ctrl.currentTotal" style="margin:auto;display: inline;margin-left: 180px;cursor:pointer" class="more" ng-click="loadMore2()">Load More</a>
+			<table ng-show="ctrl.totalResults != 0" class="row-border hover" style="margin-top: 30px;">
+			    <thead>
+				    <tr>
+				        <th>Page Url</th>
+				        <th>Outlink</th>
+				    </tr>
+			    </thead>
+			    <tbody>
+			    	<tr ng-repeat="page in ctrl.data | limitTo:ctrl.currentTotal">
+			    		<td style="width:auto">{{page.pageUrl}}</td>
+			    		<td style="width:auto">{{page.outLink}}</td>
+			    	</tr>
+			    </tbody>
+			</table>
+			<div id="loader" ng-show="loading">
+		    	<img class="ajax-loader" src="loader-large.gif" />
+		  	</div>
+		</div>
+		<script src="jquery/dist/jquery.min.js"></script>
+		<script src="datatables/media/js/jquery.dataTables.min.js"></script>
+		<script src="angular/angular.min.js" type="text/javascript"></script>
+		<script src="checklist-model/checklist-model.js" type="text/javascript"></script>
+		<script src="angular-datatables/dist/angular-datatables.min.js"></script>
+		<script src="sfly-scalyr/src/js/core.js"></script>
+		<script src="sfly-scalyr/scalyr.js"></script>
+		<script src="sfly-scalyr/src/js/directives/slyEvaluate.js"></script>
+		<script src="sfly-scalyr/src/js/directives/slyRepeat.js"></script>
+		<script src="controllers/controller.js" type="text/javascript"></script>
+	</body>
+</html>

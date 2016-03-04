@@ -1,0 +1,32 @@
+.container {
+	padding-top: 40px;
+}
+.loading {
+	
+}
+
+.not-loading { 
+	display: none 
+}
+
+.ajax-loader {
+	margin: auto;
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+}
+
+.more {
+	color: red;
+}
+
+td, th {
+	padding-right: 35px;
+}
+
+th {
+	height: 40px;
+	border-bottom: 1px solid #babcbf;
+}

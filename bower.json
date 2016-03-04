@@ -1,0 +1,27 @@
+{
+  "name": "outlink-tool",
+  "description": "Tool to display outlinks for UEL",
+  "main": "server.js",
+  "authors": [
+    "Adrian Asagba"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "1.5.0",
+    "jquery": "^2.2.1",
+    "datatables": "^1.10.11",
+    "angular-datatables": "^0.5.3",
+    "checklist-model": "^0.9.0",
+    "sfly-scalyr": "^1.0.6"
+  }
+}
