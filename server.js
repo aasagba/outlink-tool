@@ -29,7 +29,7 @@ app.get('/data/:term/:searchtype', function(req, res){
 	console.log("Search type is: " + searchType);
 	//http://www.uel.ac.uk/
 	
-	if (searchType == "standard") {
+	if (searchType == "exact match") {
 	
 		db.OutLinks_853.find({"crawlId":853, "pageUrl":url}, { "pageUrl": 1, "outLink":1, _id:0 }, function (err, docs) {
 			if(err){ 
@@ -40,7 +40,7 @@ app.get('/data/:term/:searchtype', function(req, res){
 				
 				var data = [];
 				docs.forEach( function (page, id) {
-					console.log( "id: " + id + ", pageUrl: " + page.pageUrl + ", outLink: " + page.outLink );
+					//console.log( "id: " + id + ", pageUrl: " + page.pageUrl + ", outLink: " + page.outLink );
 					data.push({
 						id: id,
 						pageUrl: page.pageUrl,
@@ -61,7 +61,7 @@ app.get('/data/:term/:searchtype', function(req, res){
 				
 				var data = [];
 				docs.forEach( function (page, id) {
-					console.log( "id: " + id + ", pageUrl: " + page.pageUrl + ", outLink: " + page.outLink );
+					//console.log( "id: " + id + ", pageUrl: " + page.pageUrl + ", outLink: " + page.outLink );
 					data.push({
 						id: id,
 						pageUrl: page.pageUrl,
@@ -75,6 +75,6 @@ app.get('/data/:term/:searchtype', function(req, res){
 	}
 });
 
-app.listen('8081') 
-console.log('Outlink-Tool on port 8081'); 
+app.listen('80') 
+console.log('Outlink-Tool on port 80'); 
 exports = module.exports = app;

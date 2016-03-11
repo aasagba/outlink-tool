@@ -1,10 +1,10 @@
-var myApp = angular.module('myApp', ['datatables', 'checklist-model', 'sly']).run(initDT);; 
+var myApp = angular.module('myApp', ['datatables', 'checklist-model', 'ngDialog']).run(initDT);; 
 
 function initDT(DTDefaultOptions) {
     DTDefaultOptions.setLoadingTemplate('<img src="loader.gif">');
 }
 
-myApp.controller('AppCtrl', ['$scope', '$http', 'DTOptionsBuilder', 'DTColumnBuilder', 'DTColumnDefBuilder', function($scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder) {
+myApp.controller('AppCtrl', ['$scope', '$http', 'DTOptionsBuilder', 'DTColumnBuilder', 'DTColumnDefBuilder', 'ngDialog', function($scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog) {
 	
 	var vm = this;
 	vm.data = [];
@@ -17,14 +17,13 @@ myApp.controller('AppCtrl', ['$scope', '$http', 'DTOptionsBuilder', 'DTColumnBui
 	$scope.data = []
 	,$scope.log = []
 	,$scope.roles = [
-	    'standard', 
-	    'regex'
+	    'exact match'
 	  ]
 	,$scope.user = {
 	    roles: []
 	 }
 	,$scope.term = ''
-	,$scope.checked = 'standard'
+	,$scope.checked = 'regex'
 	,$scope.totalDisplayed = 10000;
 	
 	$scope.getRoles = function() {
@@ -46,9 +45,11 @@ myApp.controller('AppCtrl', ['$scope', '$http', 'DTOptionsBuilder', 'DTColumnBui
     };
 	
 	$scope.check = function(value, checked) {
-		logIt("value: "+value+", chcked: "+checked);
+		logIt("value: "+value+", checked: "+checked);
 		if(checked) {
 			$scope.checked = value;
+		} else {
+			$scope.checked = "regex";
 		}
 		
 	    var idx = $scope.user.roles.indexOf(value);
@@ -118,5 +119,38 @@ myApp.controller('AppCtrl', ['$scope', '$http', 'DTOptionsBuilder', 'DTColumnBui
 		});
 		
 	}
+	
+	$scope.clickToOpen = function () {
+        ngDialog.open({ template: 'popupTmpl.html', className: 'ngdialog-theme-default' });
+    };
+    
+    $scope.downloadToCSV = function (d) {
+    	logIt("Processing CSV file");
+    	logIt("Processing: " + vm.data.length + " results");
+    	var csvContent = "data:text/csv;charset=utf-8,";
+    	flag = true;
+    	
+    	vm.data.forEach(function(infoArray, index){
+    		var a = [];
+    		if (flag) {
+    			a.push("Page Url", "Outlink");
+    			flag = false;
+    		} else {
+    			a.push(infoArray.pageUrl, infoArray.outLink);
+    		}
+    		
+		    dataString = a.join(",");
+		    csvContent += index < vm.data.length ? dataString+ "\n" : dataString;
+		
+		}); 
+		
+		var encodedUri = encodeURI(csvContent);
+		var link = document.createElement("a");
+		link.setAttribute("href", encodedUri);
+		link.setAttribute("download", "Littleforest_Report.csv");
+		document.body.appendChild(link);
+		link.click();
+    }
+	
 }]);
 	

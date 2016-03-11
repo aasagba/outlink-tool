@@ -30,3 +30,21 @@ th {
 	height: 40px;
 	border-bottom: 1px solid #babcbf;
 }
+
+u {
+	line-height: 3;
+	font-size: 20px;
+}
+
+.emphasise {
+	color: red;
+	/*font-weight: bold;*/
+}
+
+.ngdialog-content {
+	width: 800px !important;
+}
+
+.ngdialog-overlay {
+    pointer-events: none;
+}

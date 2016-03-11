@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html ng-app="myApp">
 	<head>
-		<title>Search Source URL</title>
+		<title>Outlink Tool</title>
 
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
 		<link href="datatables/media/css/datatables.bootstrap.min.css" rel="stylesheet">
 		<link href="datatables/media/css/jquery.dataTables.min.css" rel="stylesheet">
 		<link href="http://l-lin.github.io/angular-datatables/dist/css/angular-datatables.css" rel="stylesheet">
+		<link href="ng-dialog/css/ngDialog.css" rel="stylesheet">
+		<link href="ng-dialog/css/ngDialog-theme-default.css" rel="stylesheet">
 		<link rel="stylesheet" href="styles/styles.css">
 	</head>
 	<body>
@@ -21,13 +23,19 @@
 						  <input type="checkbox" checklist-model="getRoles()" checklist-value="role" ng-change="check(role, checked)" style="margin-left:5px;">
 						   {{role}} 
 						</label>
+						<div class="buttons" style="display:inline;float:right;cursor:pointer">
+							<a class="demo" ng-click="clickToOpen()" href="#">Help</a>
+						</div>
 					</div>
 				</div>
 			</form>
 			<label for="pageTotal">Show:&nbsp;</label><input type="text" style="width:80px" name="pageTotal" value="" id="pageTotal" ng-model="ctrl.limit" /> entries
 			<span style="margin-left: 80px;">Showing <b>{{ctrl.currentTotal}}</b> of <b>{{ctrl.totalResults}}</b> total results</span>
 			<!--<button ng-if="ctrl.totalResults > ctrl.currentTotal" style="width:120px;text-align:center;margin:auto;display: inline;margin-left: 180px;" class="btn-block" ng-click="loadMore2()">Load More</button>-->
-			<a ng-if="ctrl.totalResults > ctrl.currentTotal" style="margin:auto;display: inline;margin-left: 180px;cursor:pointer" class="more" ng-click="loadMore2()">Load More</a>
+			<div ng-if="ctrl.totalResults > ctrl.currentTotal" style="display: inline;margin-left: 180px;">
+				<a style="margin:auto;cursor:pointer;margin-right:8px" class="more" ng-click="loadMore2()">Load More Results</a> |
+				<a ng-click="downloadToCSV(ctrl.data);" style="margin-left:8px">Download to CSV</a>
+			</div>
 			<table ng-show="ctrl.totalResults != 0" class="row-border hover" style="margin-top: 30px;">
 			    <thead>
 				    <tr>
@@ -51,10 +59,11 @@
 		<script src="angular/angular.min.js" type="text/javascript"></script>
 		<script src="checklist-model/checklist-model.js" type="text/javascript"></script>
 		<script src="angular-datatables/dist/angular-datatables.min.js"></script>
-		<script src="sfly-scalyr/src/js/core.js"></script>
+		<!--<script src="sfly-scalyr/src/js/core.js"></script>
 		<script src="sfly-scalyr/scalyr.js"></script>
 		<script src="sfly-scalyr/src/js/directives/slyEvaluate.js"></script>
-		<script src="sfly-scalyr/src/js/directives/slyRepeat.js"></script>
+		<script src="sfly-scalyr/src/js/directives/slyRepeat.js"></script>-->
+		<script src="ng-dialog/js/ngDialog.js"></script>
 		<script src="controllers/controller.js" type="text/javascript"></script>
 	</body>
 </html>
