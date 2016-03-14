@@ -6,32 +6,42 @@ var request = require('request');
 var app     = express();
 var mongojs = require('mongojs');
 var databaseUrl = "mydb";
-var collections = "OutLinks_853";
-var db = mongojs(databaseUrl, [collections]);
+//var collections = "OutLinks_853";
+var db = mongojs(databaseUrl);
 //var mycollection = db.collection('OutLinks_853');
 
 app.use(express.static(__dirname + "/public"));
 
 db.on('error', function() {
   console.log('we had an error.');
-});
+})
+db.once('open', function() {
+	console.log('connected to database.');
+})
 
 /* get json object*/
-app.get('/data/:term/:searchtype', function(req, res){
+app.get('/data/:term/:searchtype/:siteid', function(req, res){
 	
-	//var url = "http://" + decodeURIComponent(req.params.term) + "/";
 	var url = decodeURIComponent(req.params.term);
 	var searchType = req.params.searchtype;
-	
-	
+	var siteId = parseInt(req.params.siteid);
 	
 	console.log("in get data, term is: " + url);
 	console.log("Search type is: " + searchType);
-	//http://www.uel.ac.uk/
+	console.log("Site id is: " + siteId);
+	//examples: 853, 914
+	
+	var mycollection = db.collection("OutLinks_" + siteId);
+	
+	var condition = {};
+	condition["crawlId"] = siteId;
 	
 	if (searchType == "exact match") {
 	
-		db.OutLinks_853.find({"crawlId":853, "pageUrl":url}, { "pageUrl": 1, "outLink":1, _id:0 }, function (err, docs) {
+		condition["pageUrl"] = url;
+		console.log("obj is: " + JSON.stringify(condition));
+	
+		mycollection.find(condition, { "pageUrl": 1, "outLink":1, _id:0 }, function (err, docs) {
 			if(err){ 
 				throw err;
 				data = [];
@@ -52,7 +62,12 @@ app.get('/data/:term/:searchtype', function(req, res){
 			}
 		})
 	} else if (searchType == "regex") {
-		db.OutLinks_853.find({"crawlId":853, "pageUrl": {$regex: url}}, { "pageUrl": 1, "outLink":1, _id:0 }, function (err, docs) {
+		
+		condition["pageUrl"] =  {$regex: url };
+		console.log("obj is: " + JSON.stringify(condition));
+		//{"crawlId":853, "pageUrl": {$regex: url}}
+		
+		mycollection.find(condition, { "pageUrl": 1, "outLink":1, _id:0 }, function (err, docs) {
 			if(err){ 
 				throw err;
 				data = [];

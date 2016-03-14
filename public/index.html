@@ -13,6 +13,9 @@
 		<link rel="stylesheet" href="styles/styles.css">
 	</head>
 	<body>
+		<script>
+		window.TextEncoder = window.TextDecoder = null;
+		</script>
 		<div class="container" ng-controller="AppCtrl as ctrl">
 			<form name="form" novalidate>
 				<div class="search-container" style="margin-bottom: 20px;">
@@ -59,11 +62,12 @@
 		<script src="angular/angular.min.js" type="text/javascript"></script>
 		<script src="checklist-model/checklist-model.js" type="text/javascript"></script>
 		<script src="angular-datatables/dist/angular-datatables.min.js"></script>
-		<!--<script src="sfly-scalyr/src/js/core.js"></script>
-		<script src="sfly-scalyr/scalyr.js"></script>
-		<script src="sfly-scalyr/src/js/directives/slyEvaluate.js"></script>
-		<script src="sfly-scalyr/src/js/directives/slyRepeat.js"></script>-->
 		<script src="ng-dialog/js/ngDialog.js"></script>
 		<script src="controllers/controller.js" type="text/javascript"></script>
+		<script src="angular-route/angular-route.min.js" type="text/javascript"></script>
+		<!-- Required for non-UTF encodings -->
+		<script src="text-encoding/lib/encoding-indexes.js"></script>
+	    <script src="text-encoding/lib/encoding.js"></script>
+	    <script src="file-saver.js/FileSaver.js"></script>
 	</body>
 </html>

@@ -1,10 +1,20 @@
-var myApp = angular.module('myApp', ['datatables', 'checklist-model', 'ngDialog']).run(initDT);; 
+var myApp = angular.module('myApp', ['datatables', 'checklist-model', 'ngDialog', 'ngRoute']).run(initDT);
+
+/** 
+ * Routing Setup
+ */
+myApp.config(["$routeProvider", function($routeProvider) {
+   $routeProvider
+   .when('/id/:id', {
+		controller: 'AppCtrl'
+	})
+}]);
 
 function initDT(DTDefaultOptions) {
     DTDefaultOptions.setLoadingTemplate('<img src="loader.gif">');
 }
 
-myApp.controller('AppCtrl', ['$scope', '$http', 'DTOptionsBuilder', 'DTColumnBuilder', 'DTColumnDefBuilder', 'ngDialog', function($scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog) {
+myApp.controller('AppCtrl', ['$scope', '$http', '$routeParams', '$route', '$rootScope', 'DTOptionsBuilder', 'DTColumnBuilder', 'DTColumnDefBuilder', 'ngDialog', function($scope, $http, $routeParams, $route, $rootScope, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog) {
 	
 	var vm = this;
 	vm.data = [];
@@ -13,8 +23,8 @@ myApp.controller('AppCtrl', ['$scope', '$http', 'DTOptionsBuilder', 'DTColumnBui
 	vm.totalResults = 0;
 	$scope.loading = false;
 	
-	
-	$scope.data = []
+	$scope.siteid = ''
+	,$scope.data = []
 	,$scope.log = []
 	,$scope.roles = [
 	    'exact match'
@@ -25,6 +35,11 @@ myApp.controller('AppCtrl', ['$scope', '$http', 'DTOptionsBuilder', 'DTColumnBui
 	,$scope.term = ''
 	,$scope.checked = 'regex'
 	,$scope.totalDisplayed = 10000;
+	
+	$rootScope.$on('$routeChangeSuccess', function () {
+            $scope.siteid = $routeParams.id;
+            console.log("Site id: " + $scope.siteid);
+	});
 	
 	$scope.getRoles = function() {
 	   return $scope.user.roles;
@@ -91,15 +106,8 @@ myApp.controller('AppCtrl', ['$scope', '$http', 'DTOptionsBuilder', 'DTColumnBui
 		logIt(urlEncoded);
 		
 		
-		$http.get('/data/' + urlEncoded + "/" + searchType).success(function(response) {
+		$http.get('/data/' + urlEncoded + "/" + searchType + "/" + $scope.siteid).success(function(response) {
 			logIt("Data  successfully retrieved.");
-			//logIt(response);
-			
-			//logIt("Response" + JSON.stringify(response));
-			
-			/*angular.forEach(response, function (page) {
-				logIt( "id: " + page.id + ", pageUrl: " + page.pageUrl + ", outLink: " + page.outLink );
-			})*/
 			
 			//$scope.data = response;
 			vm.data = response;
@@ -127,7 +135,8 @@ myApp.controller('AppCtrl', ['$scope', '$http', 'DTOptionsBuilder', 'DTColumnBui
     $scope.downloadToCSV = function (d) {
     	logIt("Processing CSV file");
     	logIt("Processing: " + vm.data.length + " results");
-    	var csvContent = "data:text/csv;charset=utf-8,";
+    	var csvContent = "",
+    	
     	flag = true;
     	
     	vm.data.forEach(function(infoArray, index){
@@ -136,20 +145,16 @@ myApp.controller('AppCtrl', ['$scope', '$http', 'DTOptionsBuilder', 'DTColumnBui
     			a.push("Page Url", "Outlink");
     			flag = false;
     		} else {
-    			a.push(infoArray.pageUrl, infoArray.outLink);
+    			a.push('"' + infoArray.pageUrl + '"', '"' + infoArray.outLink + '"');
     		}
     		
 		    dataString = a.join(",");
 		    csvContent += index < vm.data.length ? dataString+ "\n" : dataString;
-		
+
 		}); 
-		
-		var encodedUri = encodeURI(csvContent);
-		var link = document.createElement("a");
-		link.setAttribute("href", encodedUri);
-		link.setAttribute("download", "Littleforest_Report.csv");
-		document.body.appendChild(link);
-		link.click();
+		var csvContentEncoded = new TextEncoder('windows-1252', { NONSTANDARD_allowLegacyEncoding: true }).encode(csvContent);
+		var blob = new Blob([csvContentEncoded], {type: 'text/csv;charset=windows-1252;'});
+		saveAs(blob, 'Littleforest_Report.csv');
     }
 	
 }]);
