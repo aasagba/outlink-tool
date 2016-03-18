@@ -39,7 +39,7 @@ app.get('/data/:term/:searchtype/:siteid', function(req, res){
 	if (searchType == "exact match") {
 	
 		condition["pageUrl"] = url;
-		console.log("obj is: " + JSON.stringify(condition));
+		//console.log("obj is: " + JSON.stringify(condition));
 	
 		mycollection.find(condition, { "pageUrl": 1, "outLink":1, _id:0 }, function (err, docs) {
 			if(err){ 

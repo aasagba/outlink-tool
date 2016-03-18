@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp', ['datatables', 'checklist-model', 'ngDialog', 'ngRoute']).run(initDT);
+var myApp = angular.module('myApp', ['datatables', 'checklist-model', 'ngDialog', 'ngRoute', 'mgcrea.ngStrap.tooltip']).run(initDT);
 
 /** 
  * Routing Setup
@@ -159,3 +159,18 @@ myApp.controller('AppCtrl', ['$scope', '$http', '$routeParams', '$route', '$root
 	
 }]);
 	
+myApp.directive('tooltip', function(){
+	console.log("Tooltip clicked");
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs){
+            $(element).hover(function(){
+                // on mouseenter
+                $(element).tooltip('show');
+            }, function(){
+                // on mouseleave
+                $(element).tooltip('hide');
+            });
+        }
+    };
+});
