@@ -13,59 +13,90 @@
 		<link rel="stylesheet" href="styles/styles.css">
 	</head>
 	<body>
+
 		<script>
 			window.TextEncoder = window.TextDecoder = null;
 		</script>
-		<div class="container" ng-controller="AppCtrl as ctrl">
+
+		<div class="main" ng-controller="AppCtrl as ctrl">
+
 			<form name="form" novalidate>
-				<div class="search-container" style="margin-bottom: 20px;">
-					<label style="margin-right: 10px;">Search Source Url: </label><input class="form-control" style="width:50%;display:inline" ng-model="term" name="search" id="search" placeholder="Enter URL or keyword..." required="required" />
-					<button style="display: inline" class="btn btn-primary search" ng-click="search(term);">Search</button>
-					<div style="margin-left:10px; display: inline;">
+				<div class="search-container">
+					<label>Search Source Url </label><input class="form-control search" style="" ng-model="term" name="search" id="search" placeholder="Enter URL or keyword..." required="required" />
+					<button class="btn btn-primary search" ng-click="search(term);">Search</button>
+					<div class="roles">
 						<label ng-repeat="role in roles">
-						  <input type="checkbox" checklist-model="getRoles()" checklist-value="role" ng-change="check(role, checked)" style="margin-left:5px;" data-trigger="hover" data-placement="right" data-title="Ticking this box will enable 'exact match' search mode. 
+						  <input type="checkbox" checklist-model="getRoles()" checklist-value="role" ng-change="check(role, checked)" data-trigger="hover" data-placement="auto" data-title="Ticking this box will enable 'exact match' search mode.
 						  This will allow the user to search by an exact URL. Only exact matches will be returned in this mode. If this box is left unticked then the normal search mode will be enabled. This will allow users to search by both URL's and keywords. 
 						  It will return all results that contain the search term." bs-tooltip>
 						   {{role}} 
 						</label>
-						<div class="buttons" style="display:inline;float:right;cursor:pointer">
-							<a class="demo" ng-click="clickToOpen()" href="#">Help</a>
-						</div>
 					</div>
+					<div class="buttons">
+						<a class="demo" ng-click="clickToOpen()" href="#">Help</a>
+					</div>
+
 				</div>
 			</form>
-			
-			<label for="pageTotal">Show:&nbsp;</label><input type="text" style="width:80px" name="pageTotal" value="" id="pageTotal" ng-model="ctrl.limit" 
-			data-trigger="hover" data-placement="right" data-title="This should be used to control the number of results that are loaded onto the page at one time. *Please note that setting this to a significantly high number may cause performance issues." bs-tooltip /> entries
-			<span style="margin-left: 80px;">Showing <b>{{ctrl.currentTotal}}</b> of <b>{{ctrl.totalResults}}</b> total results</span>
-			<!--<button ng-if="ctrl.totalResults > ctrl.currentTotal" style="width:120px;text-align:center;margin:auto;display: inline;margin-left: 180px;" class="btn-block" ng-click="loadMore2()">Load More</button>-->
-			<div ng-if="ctrl.totalResults > ctrl.currentTotal" style="display: inline;margin-left: 180px;">
-				<a style="margin:auto;cursor:pointer;margin-right:8px" class="more" ng-click="loadMore2()" data-trigger="hover" data-placement="right" data-title="The 'Load More Results' link can be used to load more results onto the page. The amount of results that are loaded
-					is determined by the number set in the 'show entries' field. Clicking the 'load more' link repeatedly will load the data in increments of the number specified in the 
-					'show entries' field. The data will continue to be appended to the end of the page until the total number of results are showing on the page. This method of displaying search results has been implemented to allow the browser to handle hundreds 
-					of thousands or even millions of results without resulting in performance/termination issues." bs-tooltip>Load More Results</a> |
-				<a ng-click="downloadToCSV(ctrl.data);" data-trigger="hover" data-placement="right" style="margin-left:8px" 
-					data-title="This link will allow the user to download the entirety of the search results to a csv file, which can be viewed in a Spreadsheet." bs-tooltip>Download to CSV</a>
-				
+
+			<div class="toolbar">
+				<div style="width: 31%; display: inline-block; float: left;">
+					<label for="pageTotal">Show:&nbsp;</label><input class="form-control page-total" type="text" name="pageTotal" value="" id="pageTotal" ng-model="ctrl.limit"
+				data-trigger="hover" data-placement="auto" data-title="This should be used to control the number of results that are loaded onto the page at one time. *Please note that setting this to a significantly high number may cause performance issues." bs-tooltip /> entries
+				</div>
+				<div style="width: 31%; display: inline-block; float: left;">
+					<span class="totals">Showing <b>{{ctrl.currentTotal}}</b> of <b>{{ctrl.totalResults}}</b> total results</span>
+				</div>
+				<!--<button ng-if="ctrl.totalResults > ctrl.currentTotal" style="width:120px;text-align:center;margin:auto;display: inline;margin-left: 180px;" class="btn-block" ng-click="loadMore2()">Load More</button>-->
+				<div class="result-tools">
+					<div ng-if="ctrl.totalResults > ctrl.currentTotal">
+						<a class="more" ng-click="loadMore2()" data-trigger="hover" data-placement="auto" data-title="This is used to load more results onto the page. The amount of results that are loaded
+							is determined by the number set in the 'show entries' field. Clicking the 'load more' link repeatedly will load the data in increments of the number specified in the
+							'show entries' field. The data will continue to be appended to the end of the page until the total number of results are showing on the page. This method of displaying search results has been implemented to allow the browser to handle hundreds
+							of thousands or even millions of results without resulting in performance/termination issues." bs-tooltip>Load More Results</a><span style="color: rgb(216, 219, 222);"> |</span>
+					</div>
+					<div ng-if="ctrl.totalResults > 0">
+						<a ng-click="downloadToCSV(ctrl.data);" data-trigger="hover" data-placement="auto"
+							data-title="This link will allow the user to download the entirety of the search results to a csv file, which can be viewed in a Spreadsheet." bs-tooltip>Download to CSV</a><span style="color: rgb(216, 219, 222);"> |</span>
+						<a ng-click="makeUnique()" onclick="unique()" id="unique" data-trigger="hover" data-placement="auto" data-title="Remove duplicates" bs-tooltip>Remove Duplicates</a>
+					</div>
+				</div>
 			</div>
-			<table ng-show="ctrl.totalResults != 0" class="row-border hover" style="margin-top: 30px;">
-			    <thead>
-				    <tr>
-				        <th>Page Url</th>
-				        <th>Outlink</th>
-				    </tr>
-			    </thead>
-			    <tbody>
-			    	<tr ng-repeat="page in ctrl.data | limitTo:ctrl.currentTotal">
-			    		<td style="width:auto">{{page.pageUrl}}</td>
-			    		<td style="width:auto">{{page.outLink}}</td>
-			    	</tr>
-			    </tbody>
-			</table>
+
+			<script>
+				function unique() {
+
+					console.log("in disableUnique()");
+					var el = document.getElementById("unique");
+					console.log("el: " + el);
+					el.className = "disable-unique";
+
+				}
+			</script>
+
+			<div class="table-body">
+				<table ng-show="ctrl.totalResults != 0" class="row-border hover">
+					<thead>
+						<tr>
+							<th>Page Url</th>
+							<th>Outlink</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="page in ctrl.data | limitTo:ctrl.currentTotal">
+							<td>{{page.pageUrl}}</td>
+							<td>{{page.outLink}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
 			<div id="loader" ng-show="loading">
 		    	<img class="ajax-loader" src="loader-large.gif" />
 		  	</div>
+
 		</div>
+
 		<script src="jquery/dist/jquery.min.js"></script>
 		<script src="datatables/media/js/jquery.dataTables.min.js"></script>
 		<script src="angular/angular.min.js" type="text/javascript"></script>

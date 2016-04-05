@@ -1,3 +1,5 @@
 .metadata
 .metadata/*
 bower_components
+.idea
+.idea/*

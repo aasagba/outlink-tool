@@ -156,6 +156,28 @@ myApp.controller('AppCtrl', ['$scope', '$http', '$routeParams', '$route', '$root
 		var blob = new Blob([csvContentEncoded], {type: 'text/csv;charset=windows-1252;'});
 		saveAs(blob, 'Littleforest_Report.csv');
     }
+
+	Array.prototype.unique = function() {
+		var unique = [];
+
+		for (var i = 0; i < this.length; i++) {
+			var current = this[i];
+
+			if(unique.map(function(e) { return e.outLink; }).indexOf(current.outLink) < 0)
+				unique.push(current);
+
+			console.log("PageUrl: " + current.pageUrl);
+		}
+		return unique;
+	}
+
+	$scope.makeUnique = function () {
+		logIt("Making Unique");
+		vm.data = vm.data.unique();
+		vm.currentTotal = vm.data.length;
+		vm.totalResults = vm.data.length;
+		logIt("Unique Array: " + JSON.stringify(vm.data));
+	}
 	
 }]);
 	

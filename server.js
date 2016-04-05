@@ -32,7 +32,7 @@ app.get('/data/:term/:searchtype/:siteid', function(req, res){
 	//examples: 853, 914
 	
 	var mycollection = db.collection("OutLinks_" + siteId);
-	
+
 	var condition = {};
 	condition["crawlId"] = siteId;
 	
@@ -73,7 +73,7 @@ app.get('/data/:term/:searchtype/:siteid', function(req, res){
 				data = [];
 				res.json(data);
 			} else{
-				
+
 				var data = [];
 				docs.forEach( function (page, id) {
 					//console.log( "id: " + id + ", pageUrl: " + page.pageUrl + ", outLink: " + page.outLink );
@@ -90,6 +90,6 @@ app.get('/data/:term/:searchtype/:siteid', function(req, res){
 	}
 });
 
-app.listen('80') 
+app.listen('80')
 console.log('Outlink-Tool on port 80'); 
 exports = module.exports = app;

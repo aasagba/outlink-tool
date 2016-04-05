@@ -1,5 +1,5 @@
-.container {
-	padding-top: 40px;
+.main {
+	padding-top: 0px;
 }
 .loading {
 	
@@ -18,17 +18,19 @@
 	right: 0px;
 }
 
-.more {
-	color: red;
-}
-
 td, th {
 	padding-right: 35px;
 }
 
 th {
 	height: 40px;
-	border-bottom: 1px solid #babcbf;
+	background-color: rgb(230, 230, 230);
+	border: 1px solid white;
+	text-align: center;
+}
+
+tr {
+	border-bottom: 1px solid rgb(224, 222, 222);
 }
 
 u {
@@ -47,4 +49,87 @@ u {
 
 .ngdialog-overlay {
     pointer-events: none;
+}
+.search-container {
+	margin-bottom: 20px;
+}
+.search-container label {
+	margin-right: 10px;
+}
+.search-container button {
+	display: inline
+}
+.search-container .roles {
+	margin-left: 10px;
+	display: inline;
+}
+.search-container input.search {
+	width:50%;display:inline;
+	background: url("../img/search.png") 4px 4px no-repeat;
+	background-color: white;
+	padding-left: 36px;
+}
+.search-container .roles label input {
+	margin-left:5px;
+}
+.search-container .buttons {
+	display:inline;
+	float:right;
+	cursor:pointer
+}
+.main form {
+	background-color: rgb(241, 241, 241);
+	height: 56px;
+	padding: 10px;
+	margin-bottom: 20px;
+	border-bottom: 1px solid #dad4d4;
+}
+.main .toolbar {
+	border-bottom: 1px solid rgb(235, 235, 235);
+	height: 50px;
+	padding: 0 20px;
+}
+.main .toolbar input.page-total {
+	width:80px; display:inline;
+}
+.main .toolbar span.totals {
+	margin-left: 80px;
+}
+
+.main .toolbar .result-tools {
+	display: inline-block;
+	/*margin-left: 180px;*/
+	float: right;
+}
+.main .toolbar .result-tools .more {
+	color: red;
+}
+.main .toolbar .result-tools div {
+	display: inline;
+}
+.main .toolbar .result-tools div a {
+	cursor:pointer;
+	margin-right:8px;
+	margin-left:8px;
+	height: 49px;
+	display: inline-block;
+	text-decoration: none;
+}
+.main .toolbar .result-tools div a:hover {
+	border-bottom: 3px solid red;
+}
+.main .table-body {
+	padding: 0 20px;
+}
+.main table {
+	margin-top: 30px;width: 100%;
+}
+.main table tr td {
+	width:auto;
+	padding-left: 5px;
+}
+.disable-unique {
+	pointer-events: none;
+	cursor: default;
+	opacity: 0.6;
 }
