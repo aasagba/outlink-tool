@@ -23,7 +23,7 @@
 			<form name="form" novalidate>
 				<div class="search-container">
 					<label>Search Source Url </label><input class="form-control search" style="" ng-model="term" name="search" id="search" placeholder="Enter URL or keyword..." required="required" />
-					<button class="btn btn-primary search" ng-click="search(term);">Search</button>
+					<button class="btn btn-primary search" ng-click="search(term);" onclick="document.getElementById('unique').className && enableUnique()">Search</button>
 					<div class="roles">
 						<label ng-repeat="role in roles">
 						  <input type="checkbox" checklist-model="getRoles()" checklist-value="role" ng-change="check(role, checked)" data-trigger="hover" data-placement="auto" data-title="Ticking this box will enable 'exact match' search mode.
@@ -58,19 +58,24 @@
 					<div ng-if="ctrl.totalResults > 0">
 						<a ng-click="downloadToCSV(ctrl.data);" data-trigger="hover" data-placement="auto"
 							data-title="This link will allow the user to download the entirety of the search results to a csv file, which can be viewed in a Spreadsheet." bs-tooltip>Download to CSV</a><span style="color: rgb(216, 219, 222);"> |</span>
-						<a ng-click="makeUnique()" onclick="unique()" id="unique" data-trigger="hover" data-placement="auto" data-title="Remove duplicates" bs-tooltip>Remove Duplicates</a>
+						<a ng-click="makeUnique()" class="" onclick="disableUnique()" id="unique" data-trigger="hover" data-placement="auto" data-title="Remove duplicates" bs-tooltip>Remove Duplicates</a>
 					</div>
 				</div>
 			</div>
 
 			<script>
-				function unique() {
+				function disableUnique() {
 
-					console.log("in disableUnique()");
+					console.log("Removing duplicate outlinks");
 					var el = document.getElementById("unique");
-					console.log("el: " + el);
+					//console.log("el: " + el);
 					el.className = "disable-unique";
 
+				}
+
+				function enableUnique() {
+					console.log("Enabling remove duplicates link");
+					document.getElementById("unique").className = "";
 				}
 			</script>
 

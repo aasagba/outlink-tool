@@ -79,7 +79,7 @@ myApp.controller('AppCtrl', ['$scope', '$http', '$routeParams', '$route', '$root
 	logIt("AppCtrl controller initialised");
 	
 	function logIt(text, params) {
-  		console.log('logIt: ' + text);
+  		//console.log('logIt: ' + text);
   		$scope.log.push(text);
   	}
 	
@@ -166,7 +166,7 @@ myApp.controller('AppCtrl', ['$scope', '$http', '$routeParams', '$route', '$root
 			if(unique.map(function(e) { return e.outLink; }).indexOf(current.outLink) < 0)
 				unique.push(current);
 
-			console.log("PageUrl: " + current.pageUrl);
+			//console.log("PageUrl: " + current.pageUrl);
 		}
 		return unique;
 	}
@@ -182,7 +182,7 @@ myApp.controller('AppCtrl', ['$scope', '$http', '$routeParams', '$route', '$root
 }]);
 	
 myApp.directive('tooltip', function(){
-	console.log("Tooltip clicked");
+	//console.log("Tooltip clicked");
     return {
         restrict: 'A',
         link: function(scope, element, attrs){
