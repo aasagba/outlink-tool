@@ -90,6 +90,6 @@ app.get('/data/:term/:searchtype/:siteid', function(req, res){
 	}
 });
 
-app.listen('8081')
+app.listen('80')
 console.log('Outlink-Tool on port 80'); 
 exports = module.exports = app;
