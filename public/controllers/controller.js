@@ -178,7 +178,17 @@ myApp.controller('AppCtrl', ['$scope', '$http', '$routeParams', '$route', '$root
 		vm.totalResults = vm.data.length;
 		logIt("Unique Array: " + JSON.stringify(vm.data));
 	}
-	
+
+	$scope.$watch( function () {
+		return $(document).height();
+	}, function onHeightChange(height) {
+		logIt("Height Change: " + height);
+		window.parent.postMessage(
+			height // get height of the content
+			,"*" // set target domain
+		)
+	});
+
 }]);
 	
 myApp.directive('tooltip', function(){

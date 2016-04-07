@@ -16,6 +16,16 @@
 
 		<script>
 			window.TextEncoder = window.TextDecoder = null;
+
+			window.onload = function() {
+				// post our message to the parent
+				window.parent.postMessage(
+						// get height of the content
+						document.body.scrollHeight
+						// set target domain
+						,"*"
+				)
+			};
 		</script>
 
 		<div class="main" ng-controller="AppCtrl as ctrl">
